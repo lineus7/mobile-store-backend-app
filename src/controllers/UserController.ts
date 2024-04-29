@@ -30,17 +30,17 @@ export class UserController {
     }
   }
 
-  //   static async login(req: Request, res: Response, next: NextFunction) {
-  //     try {
-  //       const { email, password }: RegisterInput = req.body;
-  //       if (!email || !password) throw new Error("Missing Input Data!");
+  static async login(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { email, password }: RegisterInput = req.body;
+      if (!email || !password) throw new Error("Missing Input Data!");
 
-  //       //   Register validation
-  //       LoginSchema.parse({ email, name, password });
+      //   Register validation
+      LoginSchema.parse({ email, password });
 
-  //       //   res.json({ message: "Success Create User", data: data });
-  //     } catch (error) {
-  //       next(error);
-  //     }
-  //   }
+      //   res.json({ message: "Success Create User", data: data });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
