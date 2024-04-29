@@ -11,9 +11,7 @@ app.use(express.json());
 app.post("/register", UserController.register);
 
 // User Login
-app.post("/login", (req, res) => {
-  res.send("Hello World!");
-});
+app.post("/login", UserController.login);
 
 // GET all phones
 app.get("/phone", (req, res) => {
