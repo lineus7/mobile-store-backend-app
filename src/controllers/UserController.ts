@@ -1,11 +1,10 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { RegisterSchema } from "../zodSchemas";
 import { prisma } from "../util/prisma";
 import { RegisterInput } from "../interfaces";
-import { date } from "zod";
 
 export class UserController {
-  static async register(req: Request, res: Response) {
+  static async register(req: Request, res: Response, next: NextFunction) {
     try {
       const registerInput: RegisterInput = {
         email: req.body.email,
@@ -34,8 +33,7 @@ export class UserController {
 
       res.json({ message: "Success Create User", data: data });
     } catch (error) {
-      console.log(error);
-      res.send("Error");
+      next(error);
     }
   }
 }

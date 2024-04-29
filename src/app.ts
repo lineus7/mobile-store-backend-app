@@ -1,5 +1,6 @@
 import express from "express";
 import { UserController } from "./controllers/UserController";
+import { errorHandler } from "./util/errorHandler";
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -38,6 +39,9 @@ app.put("/phone/:phoneId", (req, res) => {
 app.delete("/phone/:phoneId", (req, res) => {
   res.send("Hello World!");
 });
+
+// Error Handler
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`Mobile Store App listening on port ${port}`);
