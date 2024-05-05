@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { LoginSchema, RegisterSchema } from "../zodSchemas";
 import { prisma } from "../util/prisma";
 import { RegisterInput } from "../interfaces";
+import { comparePassword } from "../util/hash";
 
 export class UserController {
   static async register(req: Request, res: Response, next: NextFunction) {
@@ -38,7 +39,17 @@ export class UserController {
       //   Register validation
       LoginSchema.parse({ email, password });
 
-      //   res.json({ message: "Success Create User", data: data });
+      const data = await prisma.user.findFirst({
+        where: {
+          email,
+        },
+      });
+
+      if (!data) throw new Error("Invalid Login");
+      const isPasswordSame = comparePassword(password, data.password);
+      if (!isPasswordSame) throw new Error("Invalid Login");
+
+      res.status(200).json({ message: data });
     } catch (error) {
       next(error);
     }
